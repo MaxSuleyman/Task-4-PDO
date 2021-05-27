@@ -13,36 +13,45 @@
             <div>
                 <a href="pages/add_news.php" id="link">Добавить запись</a>
                 <a href="pages/edit_news.php" id="link">Редактировать запись</a>
+                <a href="pages/find_news.php">Найти запись</a>
             </div>
 
             <div id="space"></div>
 
             <?php
+            /** получение номера страницы */
             if (isset($_GET['page'])){
                 $page = $_GET['page'];
-            }else $page = 1;     # получение номера страницы
-            
-            $id = $_GET['id'];  # получение id для функции удаления записи
-            settype($id, 'integer'); # установка для id типа
+            }else $page = 1;
 
-            # подключение классов
+            /** получение id для функции удаления записи */
+            $id = $_GET['id'];
+
+            /** установка для id типа */
+            settype($id, 'integer');
+
+
+            /** подключение классов */
             require_once 'src/Connect.php';
             require_once 'src/Db.php';
 
-            # объект класса DB для работы с базой
+
+            /** объект класса DB для работы с базой */
             $db = new Db();
 
-            # запуск метода удаления записи при нажатии на кнопку
+
+            /** запуск метода удаления записи при нажатии на кнопку */
             if (isset($_GET['id'])) {
                 $db->delete($_GET['id']);
             }
-            # вывод пагинации на главной странице
-            #echo "<pre>";
+
+            /** вывод пагинации на главной странице */
             $pagination = $db->pagination($page);
-            $db->selectAllRows();
 
-            $db->printAllNews();
+            /** массив значений из базы */
+            $arr = $db->selectAllRows();
 
+            $db->printAllNews($arr);
             echo $pagination;
             ?>
 

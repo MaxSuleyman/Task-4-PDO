@@ -43,7 +43,7 @@
             if (isset($_POST['add'])) {
                 $title = $_POST['title'];
                 $text = $_POST['text'];
-                echo $db->insert($title, $text);
+                $db->insert($title, $text);
             }
             ?>
         </center>

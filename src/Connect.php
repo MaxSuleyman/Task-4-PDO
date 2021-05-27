@@ -1,9 +1,9 @@
 <?php
 
-
+/** класс подключения к базе */
 class Connect
 {
-    # переменная подключения
+    /** переменная подключения */
     public $connect;
 
     private $host = 'localhost:3306';
@@ -11,7 +11,7 @@ class Connect
     private $password = 'toor';
     private $base = 'test';
 
-    # функция подключения
+    /** метод подключения */
     public function __construct()
     {
         try {
@@ -25,7 +25,6 @@ class Connect
             print "Error!: " . $e->getMessage() . "<br/>";
             die();
         }
-        $this->connect->exec('SET NAMES utf8');
         return $this->connect;
     }
 }

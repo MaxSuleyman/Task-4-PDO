@@ -3,25 +3,26 @@
 
 class Db
 {
-    # переменная подключения к БД
+    /** переменная подключения к БД */
     private $connect;
 
-    # номер записи с которой начинается вывод записей
+
+    /** номер записи с которой начинается вывод записей */
     private $start;
-    # кол-во выводимых записей на 1 страницу
+    /** кол-во выводимых записей на 1 страницу */
     private $num;
 
-    # переменная массива всех полученных записей из таблицы
+    /** переменная массива всех полученных записей из таблицы */
     private $allRowsFromTable;
 
-    # метод подключения к базе
+    /** метод подключения к базе */
     public function __construct()
     {
         $connect = new Connect();
         $this->connect = $connect->connect;
     }
 
-    # метод получения кол-ва записей в таблице
+    /** метод получения кол-ва записей в таблице */
     private function getCountTable()
     {
         $query = "SELECT count(`id`) FROM news";     # запрос для подсчета кол-ва записей в базе
@@ -38,7 +39,7 @@ class Db
         return $result['count(`id`)'];
     }
 
-    # метод вывода пагинации
+    /** метод вывода пагинации */
     public function pagination($page)
     {
         $this->num = 10;  # максимальное кол-во записей на страницу
@@ -100,7 +101,7 @@ class Db
         return $pagination;
     }
 
-    # метод вывода записей из таблицы
+    /** метод вывода записей из таблицы */
     public function selectAllRows()
     {
         # запрос к базе
@@ -118,23 +119,38 @@ class Db
         return $this->allRowsFromTable;
     }
 
-    # метод вывовод записей на главной странице
-    public function printAllNews()
+    /** метод поиска записи в таблице */
+    public function selectOneRow($id)
     {
-        foreach ($this->allRowsFromTable as $key => $value) {
-            $prepareTitle = htmlentities($value['title'], ENT_SUBSTITUTE, 'UTF-8');
-            $prepareText = htmlentities($value['text'], ENT_SUBSTITUTE, 'UTF-8');
+        $query = "SELECT * FROM news WHERE id = ?";
+
+        /** подготовка запроса */
+        $prepare = $this->connect->prepare($query);
+
+        /** выполнение запроса */
+        $prepare->execute(array($id));
+
+        /** массив содержащая результат выполнения запроса */
+        $rowFromTable = $prepare->fetchAll(PDO::FETCH_ASSOC);
+
+        return $rowFromTable;
+    }
+
+    /** метод вывовод записей на главной странице */
+    public function printAllNews($array)
+    {
+        foreach ($array as $key => $value) {
             ?>
             <div id="container">
                 <div id="container_inner">
                     <div id="title">
-                        <?php echo $prepareTitle; ?>
+                        <?php echo $value['title']; ?>
                         <a href="../index.php?id=<?php echo $value['id']?>" name="delete" id="delete_button">Удалить</a>
                         <a name="remove" id="delete_button">ID = <?php echo $value['id']?></a>
                     </div><br>
 
                     <div id="content">
-                        <?php echo $prepareText;?>
+                        <?php echo $value['text'];?>
                     </div>
                 </div>
             </div>
@@ -144,7 +160,7 @@ class Db
         }
     }
 
-    # метод удаления записи из таблицы
+    /**  метод удаления записи из таблицы */
     public function delete($id)
     {
         # запрос к базе
@@ -157,7 +173,7 @@ class Db
         $result->execute(array('id' => $id));
     }
 
-    # метод редактирования записи в таблице
+    /** метод редактирования записи в таблице */
     public function edit($title, $text, $id)
     {
         # запрос к базе
@@ -175,7 +191,7 @@ class Db
         return $massage;
     }
 
-    # метод добавления записи в таблицу
+    /**  метод добавления записи в таблицу */
     public function insert($title, $text)
     {
         # запрос к базе
@@ -183,13 +199,6 @@ class Db
 
         $result = $this->connect->prepare($query);    # Подготовка запроса
 
-        $res = $result->execute(array('title' => $title, 'text' => $text));     # выполнение запроса
-
-        if (!$res) {
-            $massage =  $res->errorInfo();
-        } else {
-            $massage = "Запись успешно добавлена";
-        }
-        return $massage;
+        $result->execute(array('title' => $title, 'text' => $text));     # выполнение запроса
     }
 }
