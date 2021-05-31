@@ -1,5 +1,8 @@
 <?php
 
+#namespace src;
+
+
 /** класс подключения к базе */
 class Connect
 {

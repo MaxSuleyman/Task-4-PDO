@@ -30,15 +30,14 @@
             /** установка для id типа */
             settype($id, 'integer');
 
-
             /** подключение классов */
             require_once 'src/Connect.php';
             require_once 'src/Db.php';
-
+            #use src\Connect;
+            #use src\Db;
 
             /** объект класса DB для работы с базой */
             $db = new Db();
-
 
             /** запуск метода удаления записи при нажатии на кнопку */
             if (isset($_GET['id'])) {
@@ -51,7 +50,10 @@
             /** массив значений из базы */
             $arr = $db->selectAllRows();
 
+            /** вывод записей на главной странице */
             $db->printAllNews($arr);
+
+            /** вывод в конце страницы меню навигации */
             echo $pagination;
             ?>
 
