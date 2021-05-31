@@ -49,7 +49,7 @@
                 $id = $_POST['id'];
                 $title = $_POST['title'];
                 $text = $_POST['text'];
-                echo $db->edit($title, $text, $id);
+                $db->edit($title, $text, $id);
             }
             ?>
         </center>

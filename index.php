@@ -19,11 +19,6 @@
             <div id="space"></div>
 
             <?php
-            /** получение номера страницы */
-            if (isset($_GET['page'])){
-                $page = $_GET['page'];
-            }else $page = 1;
-
             /** получение id для функции удаления записи */
             $id = $_GET['id'];
 
@@ -33,6 +28,8 @@
             /** подключение классов */
             require_once 'src/Connect.php';
             require_once 'src/Db.php';
+            require_once 'VisualiseClasses/PaginationVisual.php';
+            require_once 'VisualiseClasses/ResultQueryVisual.php';
             #use src\Connect;
             #use src\Db;
 
@@ -44,17 +41,25 @@
                 $db->delete($_GET['id']);
             }
 
+            /** получение номера страницы */
+            if (isset($_GET['page'])){
+                $page = $_GET['page'];
+            }else {
+                $page = 1;
+            }
+
             /** вывод пагинации на главной странице */
-            $pagination = $db->pagination($page);
+            $arrPagination = $db->pagination($page, 5);
 
-            /** массив значений из базы */
-            $arr = $db->selectAllRows();
+            /** объект значений из базы */
+            $obj = $db->getAll();
 
-            /** вывод записей на главной странице */
-            $db->printAllNews($arr);
+            // метод вывода значений объекта на экран
+            new ResultQueryVisual($obj);
 
             /** вывод в конце страницы меню навигации */
-            echo $pagination;
+            $pagination = new PaginationVisual($arrPagination);
+            echo $pagination->pagination;
             ?>
 
             <div id="space"></div>

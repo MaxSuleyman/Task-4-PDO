@@ -34,6 +34,7 @@
     /** подключение классов */
     require_once '../src/Connect.php';
     require_once '../src/Db.php';
+    require_once '../VisualiseClasses/ResultQueryVisual.php';
 
     $db= new Db();
 
@@ -42,20 +43,19 @@
         $id = $_POST['id'];
         settype($id, 'integer');
 
-        /** массив с результатом запроса */
+        /** объект с результатом запроса */
         /** если в таблице нет записи с указанным ID то вернет пустой массив */
-        $findArray = $db->selectOneRow($id);
+        $findObj = $db->getOne($id);
 
         /** проверка, является возвращенный массив с результатом запроса пустым */
-        if (empty($findArray)) {
+        if (empty($findObj)) {
             /** если массив пустой выводит сообщение на экран и завершает работу скрипта */
             echo "Запись с ID = $id не найдена";
             return;
         } else {
-            /** вывод данных из полученного массива на экран */
-            $db->printAllNews($findArray);
+            /** вывод данных из полученного объекта на экран */
+            new ResultQueryVisual($findObj);;
         }
-
     }
     ?>
 </center>

@@ -19,10 +19,9 @@ class Connect
     {
         try {
             $this->connect = new PDO (
-                "mysql:host=$this->host;dbname=$this->base;charset=UTF8",
+                "mysql:host=$this->host;dbname=$this->base;",
                 $this->login,
-                $this->password,
-                array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES UTF8")
+                $this->password
             );
         } catch (PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
