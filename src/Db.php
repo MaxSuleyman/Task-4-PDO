@@ -14,6 +14,7 @@ class Db
     private $num;
 
 
+
     /** метод подключения к базе */
     public function __construct()
     {
@@ -22,7 +23,7 @@ class Db
     }
 
     /** метод получения кол-ва записей в таблице */
-    private function getCountTable()
+    public function getCountTable()
     {
         /** запрос для подсчета кол-ва записей в базе */
         $query = "SELECT count(`id`) FROM news";
@@ -40,50 +41,15 @@ class Db
             $prepare->closeCursor();
 
             /** возвращает кол-во записей в указанной таблице */
-            return $result['count(`id`)'];
+            $countRows = $result['count(`id`)'];
+            return $countRows;
         } catch (PDOException $e) {
             die("Произошла ошибка при получении кол-ва записей в таблице => " . $e->getMessage());
         }
     }
 
-    /** метод вывода пагинации */
-    public function pagination($page, $num)
-    {
-        /** максимальное кол-во записей на страницу */
-        $this->num = $num;
-
-        /** проверка кол-ва страниц, если равно 0, то начальной странице устанавливается значение 1 */
-        if ($page == 0) {
-            $page = 1;
-        }
-
-        /** вызов метода возвращающего кол-во записей из таблицы */
-        $allCountTable = $this->getCountTable();
-
-        /** общее число страниц */
-        $total = intval(($allCountTable - 1) / $this->num) + 1;;
-        /** Определяем начало сообщений для текущей страницы */
-        $page = intval($page);
-
-        if(empty($page) or $page < 0) {
-            $page = 1;
-        }
-
-        /** вычисление стртовой страницы */
-        $this->start = $page * $this->num - $this->num;
-
-        // если запрошена не существующая страница, выведет на экран сообщение об ошибке
-        if ($page > $total) {
-            return $arr = ["Такой страницы не существует\n"];
-        } else {
-            // масси содержащий номер страницы и общее кол-во страниц для вывода записей на экран
-            $arr = [$page, $total];
-            return $arr;
-        }
-    }
-
     /** метод вывода n кол-ва записей из таблицы */
-    public function getAll()
+    public function getAll(int $page, int $limit)
     {
         /** запрос к базе */
         $query = "SELECT * FROM news LIMIT :start, :limit";
@@ -92,9 +58,12 @@ class Db
             /** переменная подготовки запроса */
             $prepare = $this->connect->prepare($query);
 
+            // номер записи от которого начинается вывод записи на странице
+            $start = $page * $limit - $limit;
+
             // привязка параметров к переменным
-            $prepare->bindParam('start', $this->start, PDO::PARAM_INT);
-            $prepare->bindParam('limit', $this->num, PDO::PARAM_INT);
+            $prepare->bindParam('start', $start, PDO::PARAM_INT);
+            $prepare->bindParam('limit', $limit, PDO::PARAM_INT);
 
             /** выполнение запроса */
             $prepare->execute();

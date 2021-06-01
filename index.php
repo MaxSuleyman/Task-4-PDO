@@ -23,6 +23,7 @@
             require_once 'src/Connect.php';
             require_once 'src/Db.php';
             require_once 'VisualiseClasses/Visualisation.php';
+            require_once 'Paginator/Pagination.php';
 
             /** объект класса DB для работы с базой */
             $db = new Db();
@@ -45,23 +46,30 @@
             $page = $_GET['page'];
 
             settype($page, 'integer');
-
-            if (isset($page)){
-            }else {
+            if ($page === 0) {
                 $page = 1;
             }
 
-            /** масси содержащий результат выполнения метода пагинации */
-            $arrPagination = $db->pagination($page, 5);
+            // кол-во записей которое выводится на 1 сттраницу
+            $limit = (int)5;
+            $limit = settype($limit, 'integer');
+
+            // получение кол-ва записей
+            $totalRowsFromTable = $db->getCountTable();
+            $totalRowsFromTable = settype($totalRowsFromTable, 'integer');
 
             /** объект n-ого кол-ва записей из таблицы */
-            $obj = $db->getAll();
+            $obj = $db->getAll($page, 5);
 
             // метод вывода значений объекта на экран
             $visual->queryVisual($obj);
 
-            /** вывод в конце страницы меню навигации */
-            echo $visual->paginationVisual($arrPagination);
+            // вызов объекта класса Pagination возвращает переменные $page, $num,
+            $pagination = new Pagination();
+            $arr = $pagination->paginator($page, $limit, $totalRowsFromTable);
+
+            print_r($arr);
+            echo $visual->paginationVisual($arr);
             ?>
 
             <div id="space"></div>

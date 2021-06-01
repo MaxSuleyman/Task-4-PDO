@@ -5,7 +5,7 @@ class Visualisation
 {
     // метод вывода результата поиска в таблице на экран
     // $obj - объект данных передаваемый из методов: getAll, getOne
-    public function queryVisual($obj)
+    public function queryVisual(array $obj)
     {
         foreach ($obj as $key => $value) {
             ?>
@@ -31,8 +31,9 @@ class Visualisation
     // метод вывода меню навигации
     // $arr - масси содержащий номер страницы и общее кол-во страниц
     // полученное из метода pagination
-    public function paginationVisual($arr)
+    public function paginationVisual(array $arr)
     {
+        print_r($arr);
         if (gettype($arr[0]) == 'string') {
             return $arr[0];
         }
