@@ -2,13 +2,13 @@
 <html>
     <head>
         <link rel="stylesheet" href="style/style.css">
-        <title>Новости</title>
+        <title>Главная</title>
         <meta charset="UTF-8">
     </head>
 
     <body>
         <center>
-            <h1>Новости</h1>
+            <h1>Главная</h1>
 
             <div>
                 <a href="pages/add_news.php" id="link">Добавить запись</a>
@@ -19,47 +19,49 @@
             <div id="space"></div>
 
             <?php
-            /** получение id для функции удаления записи */
-            $id = $_GET['id'];
-
-            /** установка для id типа */
-            settype($id, 'integer');
-
             /** подключение классов */
             require_once 'src/Connect.php';
             require_once 'src/Db.php';
-            require_once 'VisualiseClasses/PaginationVisual.php';
-            require_once 'VisualiseClasses/ResultQueryVisual.php';
-            #use src\Connect;
-            #use src\Db;
+            require_once 'VisualiseClasses/Visualisation.php';
 
             /** объект класса DB для работы с базой */
             $db = new Db();
 
+            // объект класса визуализации
+            $visual = new Visualisation();
+
+            /** получение id для функции удаления записи */
+            $id = $_GET['id'];
+
+            /** установка для id типа данных*/
+            settype($id, 'integer');
+
             /** запуск метода удаления записи при нажатии на кнопку */
-            if (isset($_GET['id'])) {
-                $db->delete($_GET['id']);
+            if (isset($id)) {
+                $db->delete($id);
             }
 
             /** получение номера страницы */
-            if (isset($_GET['page'])){
-                $page = $_GET['page'];
+            $page = $_GET['page'];
+
+            settype($page, 'integer');
+
+            if (isset($page)){
             }else {
                 $page = 1;
             }
 
-            /** вывод пагинации на главной странице */
+            /** масси содержащий результат выполнения метода пагинации */
             $arrPagination = $db->pagination($page, 5);
 
-            /** объект значений из базы */
+            /** объект n-ого кол-ва записей из таблицы */
             $obj = $db->getAll();
 
             // метод вывода значений объекта на экран
-            new ResultQueryVisual($obj);
+            $visual->queryVisual($obj);
 
             /** вывод в конце страницы меню навигации */
-            $pagination = new PaginationVisual($arrPagination);
-            echo $pagination->pagination;
+            echo $visual->paginationVisual($arrPagination);
             ?>
 
             <div id="space"></div>

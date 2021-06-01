@@ -55,7 +55,7 @@ class Db
         /** проверка кол-ва страниц, если равно 0, то начальной странице устанавливается значение 1 */
         if ($page == 0) {
             $page = 1;
-        };
+        }
 
         /** вызов метода возвращающего кол-во записей из таблицы */
         $allCountTable = $this->getCountTable();
@@ -72,8 +72,14 @@ class Db
         /** вычисление стртовой страницы */
         $this->start = $page * $this->num - $this->num;
 
-        $arr = [$page, $total];
-        return $arr;
+        // если запрошена не существующая страница, выведет на экран сообщение об ошибке
+        if ($page > $total) {
+            return $arr = ["Такой страницы не существует\n"];
+        } else {
+            // масси содержащий номер страницы и общее кол-во страниц для вывода записей на экран
+            $arr = [$page, $total];
+            return $arr;
+        }
     }
 
     /** метод вывода n кол-ва записей из таблицы */
@@ -87,8 +93,8 @@ class Db
             $prepare = $this->connect->prepare($query);
 
             // привязка параметров к переменным
-            $prepare->bindParam(':start', $this->start, PDO::PARAM_INT);
-            $prepare->bindParam(':limit', $this->num, PDO::PARAM_INT);
+            $prepare->bindParam('start', $this->start, PDO::PARAM_INT);
+            $prepare->bindParam('limit', $this->num, PDO::PARAM_INT);
 
             /** выполнение запроса */
             $prepare->execute();
@@ -114,6 +120,7 @@ class Db
         try {
             /** подготовка запроса */
             $prepare = $this->connect->prepare($query);
+            // привязка параметров к переменным
             $prepare->bindParam('id', $id, PDO::PARAM_INT);
 
             /** выполнение запроса */
@@ -140,6 +147,7 @@ class Db
         try {
             /** Подготовка запроса */
             $result = $this->connect->prepare($query);
+            // привязка параметров к переменным
             $result->bindParam('id', $id, PDO::PARAM_INT);
 
             /** выполнение запроса */
@@ -190,7 +198,6 @@ class Db
             // привязка параметров запроса к переменной
             $result->bindParam('title', $title, PDO::PARAM_STR);
             $result->bindParam('text', $text, PDO::PARAM_STR);
-
 
             /** выполнение запроса */
             $result->execute();

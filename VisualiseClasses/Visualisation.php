@@ -1,13 +1,42 @@
 <?php
 
-
-// класс визуалиции навигации
-class PaginationVisual
+// класс визулизации
+class Visualisation
 {
-    public $pagination;
-
-    public function __construct($arr)
+    // метод вывода результата поиска в таблице на экран
+    // $obj - объект данных передаваемый из методов: getAll, getOne
+    public function queryVisual($obj)
     {
+        foreach ($obj as $key => $value) {
+            ?>
+            <div id="container">
+                <div id="container_inner">
+                    <div id="title">
+                        <?php echo $obj[$key]->title; ?>
+                        <a href="../index.php?id=<?php echo $obj[$key]->id?>" name="delete" id="delete_button">Удалить</a>
+                        <a name="remove" id="delete_button">ID = <?php echo $obj[$key]->id?></a>
+                    </div><br>
+
+                    <div id="content">
+                        <?php echo $obj[$key]->text;?>
+                    </div>
+                </div>
+            </div>
+
+            <div id="space"></div>
+            <?php
+        }
+    }
+
+    // метод вывода меню навигации
+    // $arr - масси содержащий номер страницы и общее кол-во страниц
+    // полученное из метода pagination
+    public function paginationVisual($arr)
+    {
+        if (gettype($arr[0]) == 'string') {
+            return $arr[0];
+        }
+
         /** Проверяем нужны ли стрелки назад */
         if ($arr[0] != 1) {
             $pervpage = '<a href="/index.php?page=-1"><<</a>
@@ -19,6 +48,7 @@ class PaginationVisual
             $nextpage = '  <a href="/index.php?page=' . ($arr[0] + 1) . '">></a>
         <a href="/index.php?page=' . $arr[1] . '">>></a> ';
         }
+
         /** Находим две ближайшие станицы с обоих краев, если они есть */
         if($arr[0] - 2 > 0) {
             $page2left = ' <a href="/index.php?page=' . ($arr[0] - 2) . '">' . ($arr[0] - 2) . '</a>  ';
@@ -42,6 +72,6 @@ class PaginationVisual
                 $page2right . $nextpage . '</div></p>';
         }
 
-       return $this->pagination;
+        return $this->pagination;
     }
 }

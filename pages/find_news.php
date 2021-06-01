@@ -2,13 +2,13 @@
 <html>
 <head>
     <link rel="stylesheet" href="../style/style.css">
-    <title>Добавить запись</title>
+    <title>Найти запись</title>
     <meta charset="UTF-8">
 </head>
 
 <body>
 <center>
-    <h1>Добавить запись</h1>
+    <h1>Найти запись</h1>
 
     <div>
         <a href="../index.php" id="link">На главную</a>

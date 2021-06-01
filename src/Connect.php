@@ -24,8 +24,7 @@ class Connect
                 $this->password
             );
         } catch (PDOException $e) {
-            print "Error!: " . $e->getMessage() . "<br/>";
-            die();
+            die("Error!: " . $e->getMessage() . "<br/>");
         }
         return $this->connect;
     }

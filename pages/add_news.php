@@ -13,6 +13,7 @@
             <div>
                 <a href="../index.php" id="link">На главную</a>
                 <a href="edit_news.php" id="link">Редактировать запись</a>
+                <a href="find_news.php" id="link">Найти запись</a>
             </div>
 
             <div id="space"></div>
