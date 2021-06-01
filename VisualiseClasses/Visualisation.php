@@ -3,6 +3,8 @@
 // класс визулизации
 class Visualisation
 {
+    public $pagination;
+
     // метод вывода результата поиска в таблице на экран
     // $obj - объект данных передаваемый из методов: getAll, getOne
     public function queryVisual(array $obj)
@@ -33,14 +35,14 @@ class Visualisation
     // полученное из метода pagination
     public function paginationVisual(array $arr)
     {
-        print_r($arr);
+        #print_r($arr);
         if (gettype($arr[0]) == 'string') {
             return $arr[0];
         }
 
         /** Проверяем нужны ли стрелки назад */
         if ($arr[0] != 1) {
-            $pervpage = '<a href="/index.php?page=-1"><<</a>
+            $pervpage = '<a href="/index.php?page=1"><<</a>
         <a href="/index.php?page=' . ($arr[0] - 1) . '"><</a> ';
         }
 
@@ -73,6 +75,6 @@ class Visualisation
                 $page2right . $nextpage . '</div></p>';
         }
 
-        return $this->pagination;
+        echo $this->pagination;
     }
 }

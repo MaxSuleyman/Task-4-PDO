@@ -5,7 +5,7 @@
 class Db
 {
     /** переменная подключения к БД */
-    private $connect;
+    public $connect;
 
     /** номер записи с которой начинается вывод записей */
     private $start;

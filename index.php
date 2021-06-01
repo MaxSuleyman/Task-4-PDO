@@ -46,17 +46,15 @@
             $page = $_GET['page'];
 
             settype($page, 'integer');
-            if ($page === 0) {
+            if ($page == 0) {
                 $page = 1;
             }
 
             // кол-во записей которое выводится на 1 сттраницу
             $limit = (int)5;
-            $limit = settype($limit, 'integer');
 
             // получение кол-ва записей
             $totalRowsFromTable = $db->getCountTable();
-            $totalRowsFromTable = settype($totalRowsFromTable, 'integer');
 
             /** объект n-ого кол-ва записей из таблицы */
             $obj = $db->getAll($page, 5);
@@ -68,7 +66,6 @@
             $pagination = new Pagination();
             $arr = $pagination->paginator($page, $limit, $totalRowsFromTable);
 
-            print_r($arr);
             echo $visual->paginationVisual($arr);
             ?>
 
