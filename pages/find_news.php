@@ -31,12 +31,17 @@
         </div>
     </div>
     <?php
-    /** подключение классов */
-    require_once '../src/Connect.php';
-    require_once '../src/Db.php';
-    require_once '../VisualiseClasses/ResultQueryVisual.php';
+    // подключение классов
+    require_once '../vendor/autoload.php';
 
-    $db= new Db();
+    use src\Connect;
+    use src\Db;
+    use VisualiseClasses\Visualisation;
+
+    // переменная содержащая объект подключения к БД
+    $connect = new Connect();
+    // объект класса для работы с таблицами в БД
+    $db= new Db($connect);
 
     /** вызов метода добавления записи в базу по нажатию кнопки */
     if (isset($_POST['find'])) {
@@ -54,7 +59,8 @@
             return;
         } else {
             /** вывод данных из полученного объекта на экран */
-            new ResultQueryVisual($findObj);;
+            $visual = new Visualisation();
+            $visual->queryVisual($findObj);
         }
     }
     ?>

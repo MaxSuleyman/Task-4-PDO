@@ -1,5 +1,7 @@
 <?php
 
+namespace VisualiseClasses;
+
 // класс визулизации
 class Visualisation
 {
@@ -40,19 +42,19 @@ class Visualisation
             return $arr[0];
         }
 
-        /** Проверяем нужны ли стрелки назад */
+        // Проверяем нужны ли стрелки назад */
         if ($arr[0] != 1) {
             $pervpage = '<a href="/index.php?page=1"><<</a>
         <a href="/index.php?page=' . ($arr[0] - 1) . '"><</a> ';
         }
 
-        /** Проверяем нужны ли стрелки вперед */
+        // Проверяем нужны ли стрелки вперед */
         if ($arr[0] != $arr[1]) {
             $nextpage = '  <a href="/index.php?page=' . ($arr[0] + 1) . '">></a>
         <a href="/index.php?page=' . $arr[1] . '">>></a> ';
         }
 
-        /** Находим две ближайшие станицы с обоих краев, если они есть */
+        // Находим две ближайшие станицы с обоих краев, если они есть */
         if($arr[0] - 2 > 0) {
             $page2left = ' <a href="/index.php?page=' . ($arr[0] - 2) . '">' . ($arr[0] - 2) . '</a>  ';
         }

@@ -34,11 +34,14 @@
                 </div>
             </div>
             <?php
-            # подключение классов
-            require_once '../src/Connect.php';
-            require_once '../src/Db.php';
+            // подключение классов
+            require_once '../vendor/autoload.php';
 
-            $db= new Db();
+            use src\Connect;
+            use src\Db;
+
+            $connect = new Connect();
+            $db= new Db($connect);
 
             # вызов метода добавления записи в базу по нажатию кнопки
             if (isset($_POST['add'])) {

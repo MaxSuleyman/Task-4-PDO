@@ -19,30 +19,42 @@
             <div id="space"></div>
 
             <?php
-            /** подключение классов */
-            require_once 'src/Connect.php';
-            require_once 'src/Db.php';
-            require_once 'VisualiseClasses/Visualisation.php';
-            require_once 'Paginator/Pagination.php';
+            // пространство имен класса для работы с БД
+            use src\Db;
 
-            /** объект класса DB для работы с базой */
-            $db = new Db();
+            // пространство имен класса подключения к БД
+            use src\Connect;
+
+            // пространство имен класса визуализации
+            use VisualiseClasses\Visualisation;
+
+            // пространство имен класса пагинатора
+            use Paginator\Pagination;
+
+            // подключение классов */
+            require_once 'vendor/autoload.php';
+
+            // объект подключения к БД
+            $connect = new Connect();
+
+            // объект класса DB для работы с базой
+            $db = new Db($connect);
 
             // объект класса визуализации
             $visual = new Visualisation();
 
-            /** получение id для функции удаления записи */
+            // получение id для функции удаления записи
             $id = $_GET['id'];
 
-            /** установка для id типа данных*/
+            // установка для id типа данных
             settype($id, 'integer');
 
-            /** запуск метода удаления записи при нажатии на кнопку */
+            // запуск метода удаления записи при нажатии на кнопку
             if (isset($id)) {
                 $db->delete($id);
             }
 
-            /** получение номера страницы */
+            // получение номера страницы
             $page = $_GET['page'];
 
             settype($page, 'integer');
@@ -51,13 +63,13 @@
             }
 
             // кол-во записей которое выводится на 1 сттраницу
-            $limit = (int)5;
+            $limit = 5;
 
             // получение кол-ва записей
             $totalRowsFromTable = $db->getCountTable();
 
-            /** объект n-ого кол-ва записей из таблицы */
-            $obj = $db->getAll($page, 5);
+            // объект n-ого кол-ва записей из таблицы
+            $obj = $db->getAll($page, $limit);
 
             // метод вывода значений объекта на экран
             $visual->queryVisual($obj);

@@ -39,12 +39,18 @@
             </div>
 
             <?php
-            # подключение классов
-            require_once '../src/Connect.php';
-            require_once '../src/Db.php';
-            $db= new Db();
+            // подключение классов
+            require_once '../vendor/autoload.php';
 
-            # вызов метода редактирования записи по нажатию на кнопку
+            use src\Connect;
+            use src\Db;
+
+            // переменная содержащая лбъект подключения к БД
+            $connect = new Connect();
+            // объект класса для работы с таблицами в БД
+            $db= new Db($connect);
+
+            // вызов метода редактирования записи по нажатию на кнопку
             if (isset($_POST['edit'])) {
                 $id = $_POST['id'];
                 $title = $_POST['title'];
