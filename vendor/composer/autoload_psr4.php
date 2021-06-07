@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'src\\' => array($baseDir . '/src'),
-    'VisualiseClasses\\' => array($baseDir . '/VisualiseClasses'),
+    'View\\' => array($baseDir . '/View'),
     'Paginator\\' => array($baseDir . '/Paginator'),
+    'Model\\' => array($baseDir . '/Model'),
 );

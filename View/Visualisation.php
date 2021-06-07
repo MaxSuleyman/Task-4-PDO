@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualiseClasses;
+namespace View;
 
 // класс визулизации
 class Visualisation
@@ -37,7 +37,6 @@ class Visualisation
     // полученное из метода pagination
     public function paginationVisual(array $arr)
     {
-        #print_r($arr);
         if (gettype($arr[0]) == 'string') {
             return $arr[0];
         }
@@ -77,6 +76,6 @@ class Visualisation
                 $page2right . $nextpage . '</div></p>';
         }
 
-        echo $this->pagination;
+        return $this->pagination;
     }
 }

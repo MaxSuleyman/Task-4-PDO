@@ -1,9 +1,10 @@
 {
   "autoload": {
     "psr-4": {
+      "Model\\": "Model",
       "src\\": "src",
       "Paginator\\": "Paginator",
-      "VisualiseClasses\\": "VisualiseClasses"
+      "View\\": "View"
     }
   }
 }

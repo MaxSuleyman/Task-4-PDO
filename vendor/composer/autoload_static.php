@@ -13,11 +13,15 @@ class ComposerStaticInit8468742fdb230327e685b2bf73c5eaad
         ),
         'V' => 
         array (
-            'VisualiseClasses\\' => 17,
+            'View\\' => 5,
         ),
         'P' => 
         array (
             'Paginator\\' => 10,
+        ),
+        'M' => 
+        array (
+            'Model\\' => 6,
         ),
     );
 
@@ -26,13 +30,17 @@ class ComposerStaticInit8468742fdb230327e685b2bf73c5eaad
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
-        'VisualiseClasses\\' => 
+        'View\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/VisualiseClasses',
+            0 => __DIR__ . '/../..' . '/View',
         ),
         'Paginator\\' => 
         array (
             0 => __DIR__ . '/../..' . '/Paginator',
+        ),
+        'Model\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Model',
         ),
     );
 
